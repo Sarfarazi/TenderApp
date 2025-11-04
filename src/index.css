@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-red: #ED1C24;
+  --color-green: #39B400;
+  --color-yellow: #FFA600;
+}
+
+
+.body {
+  min-height: 100vh;
+}
