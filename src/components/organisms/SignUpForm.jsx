@@ -3,7 +3,9 @@ import InputGroup from "../molecules/signUpForm/InputGroup"
 import PelakInput from "../molecules/signUpForm/PelakInput"
 import RadioInput from "../molecules/signUpForm/RadioInput"
 import ValidationErrorToast from "../atoms/ValidationErrorToast"
-import { useNavigate } from "react-router-dom"
+import { data, useNavigate } from "react-router-dom"
+import { useFetch } from "../../hooks/useFetch"
+import { useEffect } from "react"
 
 
 
@@ -16,6 +18,16 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
     } = useForm({});
     const nav = useNavigate()
 
+    const { error, refetch, resultCode, data } = useFetch(
+        `https://localhost:7078/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+    );
+
     const submit = (data) => {
         console.log(data)
 
@@ -25,9 +37,11 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
         } else {
             setIsEditable(false)
         }
-
-
     }
+
+    useEffect(() => {
+        refetch()
+    }, [])
 
     return (
         <>
@@ -75,7 +89,7 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
                         required: "نوع وسیله نقلیه را وارد کنید",
                     }}
                     render={({ field, fieldState }) => (
-                        <RadioInput {...field} label="نوع وسیله نقلیه" error={fieldState.error?.message} isEditable={isEditable} />
+                        <RadioInput {...field} label="نوع وسیله نقلیه" error={fieldState.error?.message} isEditable={isEditable} data={data} />
 
                     )}
                 />
