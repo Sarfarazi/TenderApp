@@ -32,7 +32,7 @@ const LoginForm = () => {
                             return "لطفاً شماره همراه خود را صحیح وارد کنید";
                         },
                     }}
-                    render={({ field, fieldState }) => <InputGroup {...field} name="emailOrNumber" label="شماره همراه خود را وارد کنید." error={fieldState.error?.message} type="text" />}
+                    render={({ field, fieldState }) => <InputGroup {...field} name="emailOrNumber" label="شماره همراه خود را وارد کنید." error={fieldState.error?.message} type="tel" />}
                 />
                 <p className="w-full p-4 text-center rounded-2xl text-white bg-red" onClick={handleSubmit(submit)}>ورود</p>
                 <p className="text-sm" onClick={() => nav("/signUp")}>قبلا ثبت نام نکرده اید؟ <span className="text-red">ثبت نام</span></p>

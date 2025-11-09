@@ -1,9 +1,11 @@
-import { forwardRef } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import InputLayout from "../../templates/InputLayout"
 import num2persian from "num2persian"
 
 
-const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, error, onChange, value, isEditable = true, setPersianPrice }, ref) => {
+const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, error, onChange, value, isEditable = true, setPersianPrice , inputMode }, ref) => {
+    const [val, selVal] = useState(value ?? "")
+    const InputRef = useRef()
     const handleFocus = () => {
         const length = event.target.value.length;
         event.target.setSelectionRange(length, length);
@@ -16,20 +18,28 @@ const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, erro
 
         let output = str;
         for (let i = 0; i < 10; i++) {
-            output = output.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+            output = output.replace(persianNumbers[i], i);
         }
         return output;
     };
     const handleChange = () => {
-        if (setPersianPrice) {
-            setPersianPrice(num2persian(event.target.value))
-        }
-        onChange(convertToEnglishNumbers(event.target.value))
+        selVal(convertToEnglishNumbers(InputRef.current.value))
     }
+
+
+    useEffect(() => {
+        if (setPersianPrice) {
+            setPersianPrice(num2persian(val))
+        }
+        onChange(val)
+    }, [val])
 
     return (
         <InputLayout label={label} error={error}>
-            <input type={type} name={name} maxLength={maxLength} onFocus={() => (type !== 'number' ? handleFocus() : () => { })} value={value ?? ""} readOnly={!isEditable} className="border-none placeholder:text-black/40 text-red focus-visible:outline-0 p-3 text-center w-full" placeholder={placeholder} onChange={handleChange} />
+            <input type={type} name={name} maxLength={maxLength}
+                inputmode={inputMode ?? (type == "number" ? "numeric" : "")}
+                pattern={(type == "number" ? /^[0-9۰-۹٠-٩]$/ : "")}
+                onFocus={() => (type !== 'number' ? handleFocus() : () => { })} value={val} readOnly={!isEditable} className="border-none placeholder:text-black/40 text-red focus-visible:outline-0 p-3 text-center w-full" placeholder={placeholder} ref={InputRef} onChange={handleChange} />
         </InputLayout>
     )
 }

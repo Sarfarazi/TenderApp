@@ -86,7 +86,7 @@ const ShipmentItem = ({ state = 0 , setIsToastVisible }) => {
                             },
                         }}
                         render={({ field, fieldState }) => (
-                            <InputGroup {...field} type="number" placeholder="20000000" error={fieldState.error?.message} setPersianPrice={setPersianPrice} />
+                            <InputGroup {...field} type="text" inputMode="numeric" placeholder="20000000" error={fieldState.error?.message} setPersianPrice={setPersianPrice} />
 
                         )}
                     />}

@@ -100,7 +100,7 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
                         required: "ظرفیت حمل بار (تن) را وارد کنید",
                     }}
                     render={({ field, fieldState }) => (
-                        <InputGroup {...field} label="ظرفیت حمل بار (تن)" type="number" placeholder="2" error={fieldState.error?.message} isEditable={isEditable} />
+                        <InputGroup {...field} label="ظرفیت حمل بار (تن)" inputMode="numeric" type="text" placeholder="2" error={fieldState.error?.message} isEditable={isEditable} />
                     )}
                 />
 
