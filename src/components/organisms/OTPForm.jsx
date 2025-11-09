@@ -1,29 +1,37 @@
 import { Controller, useForm } from "react-hook-form";
 import DigitInput from "../atoms/Inputs/DigitInput"
 import BoxLayout from "../templates/BoxLayout"
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ValidationErrorToast from "../atoms/ValidationErrorToast";
 import { useNavigate } from "react-router-dom";
 import OtpTimer from "./OtpTimer";
 import AuthContext from "../../context/AuthContext ";
-
-const validators = {
-    otpEquals: (code) => (value) =>
-        String(value) !== String(code) ? "invalid code" : true,
-};
+import { useFetch } from "../../hooks/useFetch";
 
 
-
-const OTPForm = ({ setIsVerify }) => {
+const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
     const nav = useNavigate()
     const {
         control,
         handleSubmit,
         formState: { isValid, isSubmitted },
     } = useForm({});
-    const [finalCode, setFinalCode] = useState(null);
-    const [isExpired, setIsExpired] = useState(false);
-    const { setIsLoggedIn } = useContext(AuthContext)
+    const [otp, setOtp] = useState(null)
+    const { setIsLoggedIn, phone, setPhone } = useContext(AuthContext)
+
+    const { error, refetch, resultCode } = useFetch(
+        `https://localhost:7078/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                phone: phone,
+                code: otp
+            }),
+        }
+    );
 
     const refs = useRef([]);
     if (refs.current.length !== 4) {
@@ -33,21 +41,29 @@ const OTPForm = ({ setIsVerify }) => {
     }
 
     const submit = (data) => {
-        setIsLoggedIn(true)
-        setIsVerify(true)
+        setOtp(data.digit1)
     };
 
 
-    const onResend = () => {
-        setIsExpired(true)
-        setFinalCode(null)
-    }
 
+
+    useEffect(() => {
+        if (otp && otp.length == 4) {
+            refetch()
+        }
+    }, [otp])
+
+    useEffect(() => {
+        if (resultCode == 200) {
+            setIsLoggedIn(true)
+            setIsVerify(true)
+        }
+    }, [resultCode])
 
     return (
         <>
-
-            {(!isValid && isSubmitted) && <ValidationErrorToast error="کد منقضی شده یا اشتباه است" />}
+            {(!isValid && isSubmitted && !resultCode) && <ValidationErrorToast error="کد منقضی شده یا اشتباه است" />}
+            {(resultCode && resultCode !== 200) && <ValidationErrorToast error={error} />}
             <BoxLayout>
                 <form className="w-full flex flex-col gap-5 items-center">
                     {isExpired ?
@@ -69,8 +85,9 @@ const OTPForm = ({ setIsVerify }) => {
                                 name="digit1"
                                 control={control}
                                 rules={{
-                                    required: "",
-                                    validate: validators.otpEquals(1234),
+                                    required: "کد یکبار مصرف را وارد کنید",
+                                    validate: (value) =>
+                                        value.length !== 4 ? "کد صحیح نیست" : true,
                                 }}
                                 render={({ field }) => (
                                     <DigitInput
@@ -79,7 +96,6 @@ const OTPForm = ({ setIsVerify }) => {
                                         idx={i + 1}
                                         digitCount={4}
                                         refs={refs.current}
-                                        setFinalCode={setFinalCode}
                                     />
                                 )}
                             />
@@ -87,7 +103,7 @@ const OTPForm = ({ setIsVerify }) => {
                     </div>
 
                     <div className="w-full flex items-center justify-between text-blue-500 -mt-3 text-sm">
-                        <p onClick={() => nav('/')}>تغییر شماره</p>
+                        <p onClick={() => { setPhone(null); nav('/') }}>تغییر شماره</p>
                         <OtpTimer onResend={onResend} />
                     </div>
 

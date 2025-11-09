@@ -14,7 +14,7 @@ const LoginPage = () => {
     return (
         <>
             <img src={truck} className="w-full" alt="truck" />
-            <LoginForm />
+            <LoginForm/>
         </>
     )
 }

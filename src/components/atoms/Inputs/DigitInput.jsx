@@ -12,7 +12,7 @@ const convertToEnglishNumbers = (str) => {
 };
 
 const DigitInput = forwardRef(
-  ({ name, refs, setFinalCode, idx, digitCount, onChange }, ref) => {
+  ({ name, refs, idx, digitCount, onChange }, ref) => {
     const handleKeyDown = (e) => {
       const allowedKeys = ["Backspace", "Tab", "ArrowLeft", "ArrowRight"];
       const isNumber = /^[0-9۰-۹٠-٩]$/.test(e.key); // ← شامل فارسی و عربی
@@ -41,7 +41,6 @@ const DigitInput = forwardRef(
         .map((_, i) => refs[i].current.value)
         .join("");
 
-      setFinalCode(code);
       onChange(code);
 
       // رفتن به input بعدی در صورت پر شدن

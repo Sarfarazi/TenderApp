@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom"
 
 
 const LogOutBtn = () => {
-    const { setIsLoggedIn } = useContext(AuthContext)
+    const { setIsLoggedIn, setPhone } = useContext(AuthContext)
     const nav = useNavigate()
 
     const handleLogOut = () => {
+        setPhone(null)
         setIsLoggedIn(false)
         nav("/")
     }

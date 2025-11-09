@@ -6,7 +6,7 @@ import otpImg from '../../assets/images/otp.jpg'
 
 
 
-const OTPPage = () => {
+const OTPPage = ({isExpired , onResend }) => {
     const navigate = useNavigate();
     const [isVerify, setIsVerify] = useState(false);
 
@@ -24,7 +24,7 @@ const OTPPage = () => {
                 :
                 <>
                     <img src={otpImg} className="w-3/5 m-auto mb-10" alt="login" />
-                    <OTPForm setIsVerify={setIsVerify} />
+                    <OTPForm setIsVerify={setIsVerify} isExpired={isExpired} onResend={onResend} />
                 </>}
         </>
     )
