@@ -3,45 +3,60 @@ import InputGroup from "../molecules/signUpForm/InputGroup"
 import PelakInput from "../molecules/signUpForm/PelakInput"
 import RadioInput from "../molecules/signUpForm/RadioInput"
 import ValidationErrorToast from "../atoms/ValidationErrorToast"
-import { data, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useContext, useEffect, useState } from "react"
 import { useFetch } from "../../hooks/useFetch"
-import { useEffect } from "react"
+import AuthContext from "../../context/AuthContext"
 
 
 
 
-const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
+const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onResend }) => {
     const {
         control,
         handleSubmit,
         formState: { isValid, isSubmitted },
     } = useForm({});
     const nav = useNavigate()
+    const [postBody, setPostBody] = useState(null)
+    const { phone, setPhone , token } = useContext(AuthContext)
 
-    const { error, refetch, resultCode, data } = useFetch(
-        `https://localhost:7078/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
+    const { refetch, data, resultCode , error: reqError } = useFetch(
+        `api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
         {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(postBody),
         }
     );
 
     const submit = (data) => {
-        console.log(data)
+        setPhone(data.mobile)
+        setPostBody(data)
 
-        if (!isAccountPage) {
-            sessionStorage.setItem("canAccessOtp", "true")
-            nav("/otpPage")
-        } else {
-            setIsEditable(false)
-        }
     }
 
     useEffect(() => {
-        refetch()
-    }, [])
+        if (postBody) {
+            refetch()
+        }
+    }, [postBody])
+
+    useEffect(() => {
+        if (resultCode == 200) {
+            if (!isAccountPage) {
+                sessionStorage.setItem("canAccessOtp", "true")
+                nav("/otpPage")
+                onResend()
+            } else {
+                setIsEditable(false)
+            }
+        }
+    }, [resultCode])
+
 
     return (
         <>
@@ -61,9 +76,9 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
                 />
 
                 <Controller
-                    name="phoneNumber"
+                    name="mobile"
                     control={control}
-                    defaultValue={userInfo?.phoneNumber}
+                    defaultValue={userInfo?.mobile}
                     rules={{
                         required: "شماره تماس خود را وارد کنید",
                         validate: (value) => {
@@ -82,22 +97,22 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
 
 
                 <Controller
-                    name="typeOfVehicle"
+                    name="carID"
                     control={control}
-                    defaultValue={userInfo?.typeOfVehicle}
+                    defaultValue={userInfo?.carID}
                     rules={{
                         required: "نوع وسیله نقلیه را وارد کنید",
                     }}
                     render={({ field, fieldState }) => (
-                        <RadioInput {...field} label="نوع وسیله نقلیه" error={fieldState.error?.message} isEditable={isEditable} data={data} />
+                        <RadioInput {...field} label="نوع وسیله نقلیه" error={fieldState.error?.message} isEditable={isEditable} />
 
                     )}
                 />
 
                 <Controller
-                    name="vehicleName"
+                    name="vehicleBrand"
                     control={control}
-                    defaultValue={userInfo?.vehicleName}
+                    defaultValue={userInfo?.vehicleBrand}
                     rules={{
                         required: "نام تجاری وسیله نقلیه را وارد کنید",
                     }}
@@ -107,9 +122,9 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
                 />
 
                 <Controller
-                    name="maxWeight"
+                    name="cargoCapacity"
                     control={control}
-                    defaultValue={userInfo?.maxWeight}
+                    defaultValue={userInfo?.cargoCapacity}
                     rules={{
                         required: "ظرفیت حمل بار (تن) را وارد کنید",
                     }}
@@ -120,9 +135,9 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
 
 
                 <Controller
-                    name="carPlate"
+                    name="carNo"
                     control={control}
-                    defaultValue={userInfo?.carPlate}
+                    defaultValue={userInfo?.carNo}
                     rules={{
                         required: "شماره پلاک را وارد کنید",
                         validate: (value) => {
@@ -142,7 +157,8 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable }) => {
                 {(isEditable || !isAccountPage) && <p className="w-full p-4 text-center rounded-2xl text-white bg-green" onClick={handleSubmit(submit)}>ثبت اطلاعات</p>}
 
             </form>
-            {(!isValid && isSubmitted) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}
+            {(!isValid && isSubmitted && !resultCode) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}
+            {(resultCode && resultCode !== 200) && <ValidationErrorToast error={reqError} />}
         </>
     )
 }

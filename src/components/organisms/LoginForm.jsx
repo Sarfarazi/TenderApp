@@ -4,12 +4,12 @@ import InputGroup from "../molecules/signUpForm/InputGroup"
 import { Controller, useForm } from "react-hook-form"
 import { useFetch } from "../../hooks/useFetch"
 import { useContext, useEffect } from "react"
-import AuthContext from "../../context/AuthContext "
+import AuthContext from "../../context/AuthContext"
 
 
 const LoginForm = () => {
     const nav = useNavigate()
-    const {phone, setPhone } = useContext(AuthContext);
+    const {phone, setPhone , token } = useContext(AuthContext);
     const {
         control,
         handleSubmit,
@@ -21,6 +21,7 @@ const LoginForm = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 phone: phone

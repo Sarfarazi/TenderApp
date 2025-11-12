@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import ValidationErrorToast from "../atoms/ValidationErrorToast";
 import { useNavigate } from "react-router-dom";
 import OtpTimer from "./OtpTimer";
-import AuthContext from "../../context/AuthContext ";
+import AuthContext from "../../context/AuthContext";
 import { useFetch } from "../../hooks/useFetch";
 
 
@@ -17,7 +17,7 @@ const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
         formState: { isValid, isSubmitted },
     } = useForm({});
     const [otp, setOtp] = useState(null)
-    const { setIsLoggedIn, phone, setPhone } = useContext(AuthContext)
+    const { setIsLoggedIn, phone, setPhone , token } = useContext(AuthContext)
 
     const { error, refetch, resultCode } = useFetch(
         `https://localhost:7078/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
@@ -25,6 +25,7 @@ const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 phone: phone,

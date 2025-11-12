@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom'
 const UserDetail = () => {
     const [userInfo, setUserInfo] = useState({
         name: "علی اکرمی",
-        phoneNumber: "09121234567",
-        typeOfVehicle: "truck",
-        vehicleName: "بنز 10 تن",
-        maxWeight: "10",
-        carPlate: "12س43434"
+        mobile: "09121234567",
+        carID: "373",
+        vehicleBrand: "بنز 10 تن",
+        cargoCapacity: "10",
+        carNo: "12س43434"
     })
     const [isEditable, setIsEditable] = useState(false)
     const nav = useNavigate()

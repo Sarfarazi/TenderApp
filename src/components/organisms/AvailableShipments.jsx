@@ -1,13 +1,36 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ValidationErrorToast from "../atoms/ValidationErrorToast"
 import ShipmentItem from "../molecules/ShipmentItem"
+import AuthContext from "../../context/AuthContext"
+import { useFetch } from "../../hooks/useFetch"
 
 
 const AvailableShipments = () => {
-    const [isToastVisible, setIsToastVisible] = useState(false)
+    const [isToastVisible, setIsToastVisible] = useState({ isVisible: false, error: null, success: null })
+    const { token } = useContext(AuthContext)
+
+    const { refetch, data, loading } = useFetch(
+        `https://localhost:7078/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }
+    );
+
 
     useEffect(() => {
-        if (isToastVisible) {
+        refetch()
+    }, [])
+
+    const showToast = (isVisible, error, success) => {
+        setIsToastVisible({ isVisible, error, success })
+    }
+
+    useEffect(() => {
+        if (isToastVisible.isVisible) {
             setTimeout(() => {
                 setIsToastVisible(false)
             }, 3000)
@@ -16,13 +39,15 @@ const AvailableShipments = () => {
     }, [isToastVisible])
     return (
         <section className="flex flex-col gap-5 my-8">
-            {isToastVisible && <ValidationErrorToast success={"پیشنهاد شما با موفقیت ارسال شد؛ منتظر تأیید اپراتور باشید"} />}
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
-            <ShipmentItem setIsToastVisible={setIsToastVisible} />
+            {isToastVisible.isVisible && <ValidationErrorToast error={isToastVisible.error} success={isToastVisible.success} />}
+            {data ?
+                <>
+                    {data.map(item => {
+                        return <ShipmentItem key={item.Id} data={item} showToast={showToast} />
+                    })}
+                </>
+                :
+                <><p>loading</p></>}
         </section>
     )
 }

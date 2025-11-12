@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import LoginForm from "../organisms/LoginForm"
-import AuthContext from "../../context/AuthContext ";
+import AuthContext from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import truck from '../../assets/images/truck.jpg'
 

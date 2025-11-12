@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import SignUpForm from "../organisms/SignUpForm"
-import AuthContext from "../../context/AuthContext ";
+import AuthContext from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import signUpImg from '../../assets/images/signUp.jpg'
 
 
-const SignUpPage = () => {
+const SignUpPage = ({onResend}) => {
     const { isLoggedIn } = useContext(AuthContext);
 
     if (isLoggedIn) {
@@ -14,7 +14,7 @@ const SignUpPage = () => {
     return (
         <>
             <img src={signUpImg} className="w-3/5 m-auto" alt="signUp" />
-            <SignUpForm />
+            <SignUpForm onResend={onResend} />
         </>
     )
 }
