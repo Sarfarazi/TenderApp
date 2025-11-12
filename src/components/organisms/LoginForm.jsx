@@ -5,11 +5,12 @@ import { Controller, useForm } from "react-hook-form"
 import { useFetch } from "../../hooks/useFetch"
 import { useContext, useEffect } from "react"
 import AuthContext from "../../context/AuthContext"
+import SubmitBtn from "../atoms/SubmitBtn"
 
 
 const LoginForm = () => {
     const nav = useNavigate()
-    const {phone, setPhone , token } = useContext(AuthContext);
+    const { phone, setPhone, token } = useContext(AuthContext);
     const {
         control,
         handleSubmit,
@@ -62,7 +63,7 @@ const LoginForm = () => {
                     }}
                     render={({ field, fieldState }) => <InputGroup {...field} name="phone" label="شماره همراه خود را وارد کنید." error={fieldState.error?.message} type="tel" />}
                 />
-                <p className="w-full p-4 text-center rounded-2xl text-white bg-red" onClick={handleSubmit(submit)}>ورود</p>
+                <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={'red'} />
                 <p className="text-sm" onClick={() => nav("/signUp")}>قبلا ثبت نام نکرده اید؟ <span className="text-red">ثبت نام</span></p>
             </form>
         </BoxLayout>

@@ -1,4 +1,4 @@
-import { Controller, set, useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import InputGroup from "../molecules/signUpForm/InputGroup"
 import PelakInput from "../molecules/signUpForm/PelakInput"
 import RadioInput from "../molecules/signUpForm/RadioInput"
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import { useFetch } from "../../hooks/useFetch"
 import AuthContext from "../../context/AuthContext"
+import SubmitBtn from "../atoms/SubmitBtn"
 
 
 
@@ -19,10 +20,10 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
     } = useForm({});
     const nav = useNavigate()
     const [postBody, setPostBody] = useState(null)
-    const { phone, setPhone , token } = useContext(AuthContext)
+    const { phone, setPhone, token } = useContext(AuthContext)
 
-    const { refetch, data, resultCode , error: reqError } = useFetch(
-        `api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
+    const { refetch, data, resultCode, error: reqError } = useFetch(
+        `https://localhost:7078/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
         {
             method: "POST",
             headers: {
@@ -153,8 +154,7 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
                     )}
                 />
 
-
-                {(isEditable || !isAccountPage) && <p className="w-full p-4 text-center rounded-2xl text-white bg-green" onClick={handleSubmit(submit)}>ثبت اطلاعات</p>}
+                {(isEditable || !isAccountPage) && <SubmitBtn context={"ثبت اطلاعات"} onClick={handleSubmit(submit)} color={'green'} />}
 
             </form>
             {(!isValid && isSubmitted && !resultCode) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}

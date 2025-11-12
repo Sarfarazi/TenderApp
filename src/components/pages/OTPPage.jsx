@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import OTPForm from "../organisms/OTPForm"
 import { useEffect, useState } from "react";
 import VerifyModal from "../organisms/VerifyModal";
-import otpImg from '../../assets/images/otp.jpg'
+import otpImg from '../../assets/images/otp.svg'
 
 
 

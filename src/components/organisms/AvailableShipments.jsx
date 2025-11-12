@@ -3,13 +3,14 @@ import ValidationErrorToast from "../atoms/ValidationErrorToast"
 import ShipmentItem from "../molecules/ShipmentItem"
 import AuthContext from "../../context/AuthContext"
 import { useFetch } from "../../hooks/useFetch"
+import ShipmentItemLoading from "../molecules/loading/ShipmentItemLoading"
 
 
 const AvailableShipments = () => {
     const [isToastVisible, setIsToastVisible] = useState({ isVisible: false, error: null, success: null })
     const { token } = useContext(AuthContext)
 
-    const { refetch, data, loading } = useFetch(
+    const { refetch, data, error } = useFetch(
         `https://localhost:7078/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
         {
             method: "GET",
@@ -29,25 +30,23 @@ const AvailableShipments = () => {
         setIsToastVisible({ isVisible, error, success })
     }
 
-    useEffect(() => {
-        if (isToastVisible.isVisible) {
-            setTimeout(() => {
-                setIsToastVisible(false)
-            }, 3000)
-        }
-        return () => { }
-    }, [isToastVisible])
+
     return (
         <section className="flex flex-col gap-5 my-8">
             {isToastVisible.isVisible && <ValidationErrorToast error={isToastVisible.error} success={isToastVisible.success} />}
             {data ?
                 <>
-                    {data.map(item => {
-                        return <ShipmentItem key={item.Id} data={item} showToast={showToast} />
+                    {data?.map(item => {
+                        return <ShipmentItem key={item.Id} data={item} showToast={showToast} state={0} />
                     })}
                 </>
                 :
-                <><p>loading</p></>}
+                <>
+                    <ShipmentItemLoading key={1} />
+                    <ShipmentItemLoading key={2} />
+                </>
+            }
+            {error && <p>{error}</p>}
         </section>
     )
 }

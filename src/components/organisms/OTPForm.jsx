@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 import OtpTimer from "./OtpTimer";
 import AuthContext from "../../context/AuthContext";
 import { useFetch } from "../../hooks/useFetch";
+import SubmitBtn from "../atoms/SubmitBtn";
 
 
-const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
+const OTPForm = ({ setIsVerify, isExpired, onResend }) => {
     const nav = useNavigate()
     const {
         control,
@@ -17,7 +18,7 @@ const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
         formState: { isValid, isSubmitted },
     } = useForm({});
     const [otp, setOtp] = useState(null)
-    const { setIsLoggedIn, phone, setPhone , token } = useContext(AuthContext)
+    const { setIsLoggedIn, phone, setPhone, token } = useContext(AuthContext)
 
     const { error, refetch, resultCode } = useFetch(
         `https://localhost:7078/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
@@ -44,9 +45,6 @@ const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
     const submit = (data) => {
         setOtp(data.digit1)
     };
-
-
-
 
     useEffect(() => {
         if (otp && otp.length == 4) {
@@ -108,7 +106,7 @@ const OTPForm = ({ setIsVerify , isExpired , onResend }) => {
                         <OtpTimer onResend={onResend} />
                     </div>
 
-                    <p className="w-full p-4 text-center rounded-2xl text-white bg-red" onClick={handleSubmit(submit)}>ورود</p>
+                    <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={"red"} />
                 </form>
             </BoxLayout>
         </>
