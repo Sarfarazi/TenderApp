@@ -3,13 +3,13 @@
 const SubmitBtn = ({ onClick, context, color, loading }) => {
     return (
         <>
-            <div className={"w-full p-4 text-center rounded-2xl text-white " + `bg-${color}`} onClick={onClick}>
+            <div className={"w-full p-4 text-center rounded-2xl text-white flex items-center justify-center " + `bg-${color} ${loading && "pointer-events-none"}`} onClick={onClick}>
                 {loading ?
                     <>
-                        <p>loading</p>
+                        <span className="loading m-0"></span>
                     </>
                     :
-                    <p>
+                    <p className="text-center">
                         {context}
                     </p>
                 }

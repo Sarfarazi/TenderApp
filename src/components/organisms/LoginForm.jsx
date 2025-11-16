@@ -6,6 +6,7 @@ import { useFetch } from "../../hooks/useFetch"
 import { useContext, useEffect } from "react"
 import AuthContext from "../../context/AuthContext"
 import SubmitBtn from "../atoms/SubmitBtn"
+import ValidationErrorToast from "../atoms/ValidationErrorToast"
 
 
 const LoginForm = () => {
@@ -16,8 +17,8 @@ const LoginForm = () => {
         handleSubmit,
     } = useForm();
 
-    const { refetch } = useFetch(
-        `https://localhost:7078/api/OTP/OTP/OTPAsync`,
+    const { refetch, resultCode , error , loading } = useFetch(
+        `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
         {
             method: "POST",
             headers: {
@@ -32,9 +33,6 @@ const LoginForm = () => {
 
     const submit = (data) => {
         setPhone(data.phone)
-        sessionStorage.setItem("canAccessOtp", "true");
-        nav("/otpPage")
-
     }
 
     useEffect(() => {
@@ -42,6 +40,16 @@ const LoginForm = () => {
             refetch()
         }
     }, [phone])
+
+    useEffect(() => {
+        if (resultCode == 200) {
+            sessionStorage.setItem("canAccessOtp", "true");
+            nav("/otpPage")
+
+        }
+    }, [resultCode])
+
+
 
     return (
         <BoxLayout>
@@ -63,9 +71,10 @@ const LoginForm = () => {
                     }}
                     render={({ field, fieldState }) => <InputGroup {...field} name="phone" label="شماره همراه خود را وارد کنید." error={fieldState.error?.message} type="tel" />}
                 />
-                <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={'Red'} />
+                <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={'Red'} loading={loading} />
                 <p className="text-sm" onClick={() => nav("/signUp")}>قبلا ثبت نام نکرده اید؟ <span className="text-Red">ثبت نام</span></p>
             </form>
+            {(error) && <ValidationErrorToast error={error} />}
         </BoxLayout>
     )
 }

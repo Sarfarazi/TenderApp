@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import LoginPage from "./components/pages/LoginPage"
-import SignUpPage from "./components/pages/SignUpPage"
-import OTPPage from "./components/pages/OTPPage"
 import AuthContext from "./context/AuthContext"
-import { useCallback, useEffect, useState } from "react"
+import { lazy, Suspense, useCallback, useEffect, useState } from "react"
 import LoginProtector from "./components/templates/LoginProtector"
-import Dashboard from "./components/pages/Dashboard"
 import PageLayout from "./components/templates/PageLayout"
-import UserDetail from "./components/pages/UserDetail"
 import { useFetch } from "./hooks/useFetch"
+const LoginPage = lazy(() => import("./components/pages/LoginPage"));
+const SignUpPage = lazy(() => import("./components/pages/SignUpPage"));
+const OTPPage = lazy(() => import("./components/pages/OTPPage"));
+const Dashboard = lazy(() => import("./components/pages/Dashboard"));
+const UserDetail = lazy(() => import("./components/pages/UserDetail"));
+
 const saveToken = (token) => {
   const now = new Date().getTime();
   localStorage.setItem("auth_token", token);
@@ -35,7 +36,7 @@ function App() {
 
   const fetchToken = useCallback(async () => {
     try {
-      const res = await fetch("https://localhost:7078/api/Account/Login", {
+      const res = await fetch("https://tenapi.palaz.com/api/Account/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,29 +60,29 @@ function App() {
       console.error("⚠️ خطا در دریافت توکن:", err);
     }
   }, []);
-  
-    useEffect(() => {
-      const checkLogin = async () => {
-        let validToken = getValidToken();
 
-        if (!validToken) {
-          await fetchToken();
-          validToken = getValidToken();
-        }
+  useEffect(() => {
+    const checkLogin = async () => {
+      let validToken = getValidToken();
 
-        const userLogin = JSON.parse(localStorage.getItem("isLoggedIn"));
-        if (userLogin && validToken) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-        }
-      };
+      if (!validToken) {
+        await fetchToken();
+        validToken = getValidToken();
+      }
 
-      checkLogin();
-    }, [fetchToken]);
+      const userLogin = JSON.parse(localStorage.getItem("isLoggedIn"));
+      if (userLogin && validToken) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkLogin();
+  }, [fetchToken]);
 
   const { refetch } = useFetch(
-    `https://localhost:7078/api/OTP/OTP/OTPAsync`,
+    `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
     {
       method: "POST",
       headers: {
@@ -122,35 +123,43 @@ function App() {
           setPhone: setPhone
         }
       }>
-      <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden">
+      <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden relative">
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<PageLayout><LoginPage /></PageLayout>}></Route>
-            <Route path="/signUp" element={<PageLayout><SignUpPage onResend={onResend} /></PageLayout>}></Route>
-            <Route path="/otpPage" element={<PageLayout><OTPPage isExpired={isExpired} onResend={onResend} /></PageLayout>}></Route>
-            <Route
-              path={"/dashboard"}
-              element={
-                <PageLayout><LoginProtector
-                  redirectTo={"/"}
-                >
-                  <Dashboard />
-                </LoginProtector></PageLayout>
-              }
-            />
-            <Route
-              path={"/Account"}
-              element={
-                <PageLayout>
-                  <LoginProtector
+          <Suspense
+            fallback={
+              <div className="w-full fixed z-50 h-full top-0 left-0 bg-Gray flex items-center justify-center">
+                <span className="pageLoader"></span>
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<PageLayout><LoginPage /></PageLayout>}></Route>
+              <Route path="/signUp" element={<PageLayout><SignUpPage onResend={onResend} /></PageLayout>}></Route>
+              <Route path="/otpPage" element={<PageLayout><OTPPage isExpired={isExpired} onResend={onResend} /></PageLayout>}></Route>
+              <Route
+                path={"/dashboard"}
+                element={
+                  <PageLayout><LoginProtector
                     redirectTo={"/"}
                   >
-                    <UserDetail />
-                  </LoginProtector>
-                </PageLayout>
-              }
-            />
-          </Routes>
+                    <Dashboard />
+                  </LoginProtector></PageLayout>
+                }
+              />
+              <Route
+                path={"/Account"}
+                element={
+                  <PageLayout>
+                    <LoginProtector
+                      redirectTo={"/"}
+                    >
+                      <UserDetail />
+                    </LoginProtector>
+                  </PageLayout>
+                }
+              />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </main>
     </AuthContext.Provider>

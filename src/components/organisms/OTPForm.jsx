@@ -20,8 +20,8 @@ const OTPForm = ({ setIsVerify, isExpired, onResend }) => {
     const [otp, setOtp] = useState(null)
     const { setIsLoggedIn, phone, setPhone, token } = useContext(AuthContext)
 
-    const { error, refetch, resultCode } = useFetch(
-        `https://localhost:7078/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
+    const { error, refetch, resultCode , loading } = useFetch(
+        `https://tenapi.palaz.com/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
         {
             method: "POST",
             headers: {
@@ -77,7 +77,7 @@ const OTPForm = ({ setIsVerify, isExpired, onResend }) => {
                     }
 
 
-                    <div className="flex w-full gap-3" dir="ltr">
+                    <div className="flex w-full justify-center gap-3" dir="ltr">
                         {Array.from({ length: 4 }).map((_, i) => (
                             <Controller
                                 key={i}
@@ -106,7 +106,7 @@ const OTPForm = ({ setIsVerify, isExpired, onResend }) => {
                         <OtpTimer onResend={onResend} />
                     </div>
 
-                    <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={"Red"} />
+                    <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={"Red"} loading={loading} />
                 </form>
             </BoxLayout>
         </>

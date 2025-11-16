@@ -22,8 +22,8 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
     const [postBody, setPostBody] = useState(null)
     const { phone, setPhone, token } = useContext(AuthContext)
 
-    const { refetch, data, resultCode, error: reqError } = useFetch(
-        `https://localhost:7078/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
+    const { refetch, data, resultCode, error: reqError , loading} = useFetch(
+        `https://tenapi.palaz.com/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
         {
             method: "POST",
             headers: {
@@ -153,11 +153,11 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
                     )}
                 />
 
-                {(isEditable || !isAccountPage) && <SubmitBtn context={"ثبت اطلاعات"} onClick={handleSubmit(submit)} color={'Green'} />}
+                {(isEditable || !isAccountPage) && <SubmitBtn context={"ثبت اطلاعات"} onClick={handleSubmit(submit)} color={'Green'} loading={loading} />}
 
             </form>
-            {(!isValid && isSubmitted && !resultCode) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}
-            {(resultCode && resultCode !== 200) && <ValidationErrorToast error={reqError} />}
+            {(!isValid && isSubmitted && !reqError) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}
+            {(reqError) && <ValidationErrorToast error={reqError} />}
         </>
     )
 }

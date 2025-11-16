@@ -23,7 +23,7 @@ const OTPPage = ({isExpired , onResend }) => {
                 <VerifyModal state="ورود" />
                 :
                 <>
-                    <img src={otpImg} className="w-3/5 m-auto mb-10" alt="login" />
+                    <img src={otpImg} className="w-3/5 m-auto mb-10 max-w-xs" alt="login" />
                     <OTPForm setIsVerify={setIsVerify} isExpired={isExpired} onResend={onResend} />
                 </>}
         </>

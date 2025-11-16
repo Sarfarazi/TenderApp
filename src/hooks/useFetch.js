@@ -1,10 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 export function useFetch(url, options = {}) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [resultCode, setResultCode] = useState(null); // ✅ اضافه شد
+  const [resultCode, setResultCode] = useState(null);
+
 
   const refetch = useCallback(
     async (customOptions = {}) => {
@@ -35,5 +37,5 @@ export function useFetch(url, options = {}) {
     [url, JSON.stringify(options)]
   );
 
-  return { data, loading, error, resultCode, refetch }; // ✅ برگردوندن resultCode
+  return { data, loading, error, resultCode, refetch , setData }; // ✅ برگردوندن resultCode
 }

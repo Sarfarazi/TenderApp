@@ -16,8 +16,8 @@ const UserHistory = () => {
 
     const [filteredState, setFilteredState] = useState(0)
     const { phone, token } = useContext(AuthContext)
-    const { refetch, data, error, loading } = useFetch(
-        `https://localhost:7078/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
+    const { refetch, data, error, loading, setData } = useFetch(
+        `https://tenapi.palaz.com/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
         {
             method: "POST",
             headers: {
@@ -33,31 +33,28 @@ const UserHistory = () => {
 
 
     useEffect(() => {
+        setData(null)
         refetch()
-    }, [filteredState])
+    }, [filteredState, token, phone])
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     return (
         <section className="flex flex-col gap-5 my-8">
             <HistoryFilter filteredState={filteredState} setFilteredState={setFilteredState} />
-            {data ?
+            {loading && <>
+                <ShipmentItemLoading key={1} />
+                <ShipmentItemLoading key={2} />
+            </>}
+
+            {error && <p className="text-center mt-5 px-2 font-bold text-Red">{error}</p>}
+
+            {!loading && !error && data && (
                 <>
-                    {data?.map(item => {
+                    {data.map(item => {
                         return <ShipmentItem state={item.Status} data={item} key={item.Id} />
                     })}
                 </>
-                :
-                <>
-                    {loading && <>
-                        <ShipmentItemLoading key={1} />
-                        <ShipmentItemLoading key={2} />
-                    </>}
-                </>
-            }
-            {error && <p>{error}</p>}
+            )}
 
         </section>
     )

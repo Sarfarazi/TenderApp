@@ -10,8 +10,8 @@ const RadioInput = ({ label, onChange, error, value, isEditable = true }) => {
     const [selectedItem, setSelectedItem] = useState(value ?? null)
     const { token } = useContext(AuthContext)
 
-    const { refetch, data } = useFetch(
-        `https://localhost:7078/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
+    const { refetch, data, loading, error: reqErr } = useFetch(
+        `https://tenapi.palaz.com/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
         {
             method: "GET",
             headers: {
@@ -35,11 +35,19 @@ const RadioInput = ({ label, onChange, error, value, isEditable = true }) => {
         <div className="flex flex-col items-center gap-4">
             <p>{label}</p>
             <div className={"flex items-center flex-wrap justify-end gap-5 w-full px-5 " + `${isEditable ? "" : "pointer-events-none"}`} dir="ltr">
-                {data?.map(item => {
-                    return <RadioItem label={item.Name} id={item.Id} key={item.Id} setSelectedItem={setSelectedItem} selectedItem={selectedItem} />
-                })}
+                {loading && <><p className="h-4 w-full loader bg-black/10 rounded-full"></p><p className="h-4 w-full loader bg-black/10 rounded-full"></p></>}
+
+                {reqErr && <p className="text-center font-bold text-Red">{reqErr}</p>}
+
+                {!loading && !error && data && (
+                    data.map(item => {
+                        return <RadioItem label={item.Name} id={item.Id} key={item.Id} setSelectedItem={setSelectedItem} selectedItem={selectedItem} />
+                    })
+                )}
             </div>
             {error && <ValidationError error={error} />}
+
+
         </div>
     )
 }

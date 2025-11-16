@@ -13,7 +13,7 @@ const SignUpPage = ({ onResend }) => {
     }
     return (
         <>
-            <img src={signUpImg} className="w-3/5 m-auto" alt="signUp" />
+            <img src={signUpImg} className="w-3/5 m-auto max-w-xs" alt="signUp" />
             <SignUpForm onResend={onResend} />
         </>
     )

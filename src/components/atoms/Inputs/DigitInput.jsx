@@ -59,7 +59,7 @@ const DigitInput = forwardRef(
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         inputMode="numeric"
-        className="flex-1 w-full flex items-center justify-center text-center border aspect-square border-Purple_main rounded-xl font-medium text-body-lg placeholder:text-body-lg placeholder:font-medium placeholder:text-Purple_04/50 focus-visible:outline-0"
+        className="flex-1 w-full max-w-24 flex items-center justify-center text-center border aspect-square border-Purple_main rounded-xl font-medium text-body-lg placeholder:text-body-lg placeholder:font-medium placeholder:text-Purple_04/50 focus-visible:outline-0"
       />
     );
   }
