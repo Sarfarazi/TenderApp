@@ -63,8 +63,8 @@ const LoginForm = () => {
                     }}
                     render={({ field, fieldState }) => <InputGroup {...field} name="phone" label="شماره همراه خود را وارد کنید." error={fieldState.error?.message} type="tel" />}
                 />
-                <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={'red'} />
-                <p className="text-sm" onClick={() => nav("/signUp")}>قبلا ثبت نام نکرده اید؟ <span className="text-red">ثبت نام</span></p>
+                <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={'Red'} />
+                <p className="text-sm" onClick={() => nav("/signUp")}>قبلا ثبت نام نکرده اید؟ <span className="text-Red">ثبت نام</span></p>
             </form>
         </BoxLayout>
     )

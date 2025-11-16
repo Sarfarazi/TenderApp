@@ -2,12 +2,12 @@
 
 const ShipmentStateTitle = ({ state }) => {
     const stateTitles = {
-        1: "در حال بررسی پیشنهاد",
-        2: "تکمیل شده !",
+        1: "تکمیل شده !",
+        2: "در حال بررسی پیشنهاد",
         3: "پیشنهاد شما رد شد.",
     }
     return (
-        <p className={`text-xl text-${(state == 1) ? "yellow" : (state == 2) ? "green" : (state == 3) ? "red" : ""}`}>{stateTitles[state]}</p>
+        <p className={`text-xl text-${(state == 2) ? "Yellow" : (state == 1) ? "Green" : (state == 3) ? "Red" : ""}`}>{stateTitles[state]}</p>
     )
 }
 

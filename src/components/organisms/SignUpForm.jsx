@@ -58,7 +58,6 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
         }
     }, [resultCode])
 
-
     return (
         <>
             <form className="flex flex-col gap-8 mt-10">
@@ -154,7 +153,7 @@ const SignUpForm = ({ isAccountPage, isEditable, userInfo, setIsEditable, onRese
                     )}
                 />
 
-                {(isEditable || !isAccountPage) && <SubmitBtn context={"ثبت اطلاعات"} onClick={handleSubmit(submit)} color={'green'} />}
+                {(isEditable || !isAccountPage) && <SubmitBtn context={"ثبت اطلاعات"} onClick={handleSubmit(submit)} color={'Green'} />}
 
             </form>
             {(!isValid && isSubmitted && !resultCode) && <ValidationErrorToast error="لطفاً اطلاعات را کامل وارد کنید" />}

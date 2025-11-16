@@ -106,7 +106,7 @@ const OTPForm = ({ setIsVerify, isExpired, onResend }) => {
                         <OtpTimer onResend={onResend} />
                     </div>
 
-                    <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={"red"} />
+                    <SubmitBtn context={"ورود"} onClick={handleSubmit(submit)} color={"Red"} />
                 </form>
             </BoxLayout>
         </>

@@ -15,7 +15,7 @@ const VerifyModal = () => {
             <img src={verify} className="w-2/4 m-auto mb-28" alt="verify" />
             <BoxLayout>
                 <h1 className="text-2xl">ورود شما با موفقیت انجام شد</h1>
-                <SubmitBtn context={"مشاهده بارها"} onClick={() => nav("/dashboard")} color={"green"} />
+                <SubmitBtn context={"مشاهده بارها"} onClick={() => nav("/dashboard")} color={"Green"} />
             </BoxLayout>
         </>
     )

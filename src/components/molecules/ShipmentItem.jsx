@@ -8,19 +8,19 @@ import AuthContext from "../../context/AuthContext";
 import SubmitBtn from "../atoms/SubmitBtn";
 import ShipmentDate from "../atoms/ShipmentItem/ShipmentDate";
 import DestinationArrow from "../atoms/ShipmentItem/DestinationArrow";
-import ShipmentDesk from "../atoms/ShipmentItem/ShipmentDesc";
 import CustomPriceTitle from "../atoms/ShipmentItem/CustomPriceTitle";
 import ShipmentStateTitle from "../atoms/ShipmentItem/ShipmentStateTitle";
+import ShipmentDesc from "../atoms/ShipmentItem/ShipmentDesc";
 
 // states:
 // 0 => available
-// 1 => pending
-// 2 => done
+// 1 => done
+// 2 => pending
 // 3 => rejected
 
 const ShipmentItem = ({ state, showToast, data: itemData }) => {
     const { phone, token } = useContext(AuthContext)
-    const [persianPrice, setPersianPrice] = useState(num2persian(20000000))
+    const [persianPrice, setPersianPrice] = useState(num2persian(itemData.OfferPrice ?? 20000000))
     const [offerPrice, setOfferPrice] = useState(0)
     const {
         control,
@@ -69,7 +69,7 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
             <BoxLayout state={state}>
                 <ShipmentDate content={itemData?.StartDate} />
                 <DestinationArrow state={state} from={itemData?.Beginning} to={itemData?.Destination} />
-                <ShipmentDesk desc={itemData?.Description} />
+                <ShipmentDesc state={state} desc={itemData?.Description} />
 
                 <div className="w-full flex flex-col items-center justify-center gap-4">
                     <CustomPriceTitle state={state} />
@@ -93,12 +93,12 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
                         )}
                     />}
 
-                    {state !== 0 && <div className={"rounded-2xl w-full overflow-hidden text-center py-3 text-white " + `${(state == 1) ? "bg-yellow" : (state == 2) ? "bg-green" : "bg-red"}`}><p>2000000</p></div>}
+                    {state !== 0 && <div className={"rounded-2xl w-full overflow-hidden text-center py-3 text-white " + `${(state == 2) ? "bg-Yellow" : (state == 1) ? "bg-Green" : "bg-Red"}`}><p>{itemData.OfferPrice ?? "قیمت یافت نشد"}</p></div>}
 
                     <p className="-mt-3 opacity-60">{persianPrice} تومان</p>
 
 
-                    {state == 0 && <div className={"mt-2 w-full " + `${(isValid) ? "" : "pointer-events-none opacity-70"}`}><SubmitBtn loading={loading} context={"ارسال پیشنهاد قیمت"} onClick={handleSubmit(submit)} color={"red"} /></div>}
+                    {state == 0 && <div className={"mt-2 w-full " + `${(isValid) ? "" : "pointer-events-none opacity-70"}`}><SubmitBtn loading={loading} context={"ارسال پیشنهاد قیمت"} onClick={handleSubmit(submit)} color={"Red"} /></div>}
                     <ShipmentStateTitle state={state} />
                 </div>
             </BoxLayout>

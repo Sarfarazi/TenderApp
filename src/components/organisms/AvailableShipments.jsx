@@ -10,7 +10,7 @@ const AvailableShipments = () => {
     const [isToastVisible, setIsToastVisible] = useState({ isVisible: false, error: null, success: null })
     const { token } = useContext(AuthContext)
 
-    const { refetch, data, error } = useFetch(
+    const { refetch, data, error , loading } = useFetch(
         `https://localhost:7078/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
         {
             method: "GET",
@@ -42,8 +42,10 @@ const AvailableShipments = () => {
                 </>
                 :
                 <>
-                    <ShipmentItemLoading key={1} />
-                    <ShipmentItemLoading key={2} />
+                    {loading && <>
+                        <ShipmentItemLoading key={1} />
+                        <ShipmentItemLoading key={2} />
+                    </>}
                 </>
             }
             {error && <p>{error}</p>}

@@ -2,9 +2,10 @@
 
 
 @theme {
-  --color-red: #ED1C24;
-  --color-green: #39B400;
-  --color-yellow: #FFA600;
+  --color-Red: rgb(251, 44, 54);
+  --color-Green: rgb(57, 180, 0);
+  --color-Yellow: rgb(255, 166, 0);
+  --color-Gray: rgb(92, 92, 92);
 }
 
 

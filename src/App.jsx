@@ -122,7 +122,7 @@ function App() {
           setPhone: setPhone
         }
       }>
-      <main className="mx-auto border-x p-5 border-gray-500 max-w-3xl body overflow-hidden">
+      <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<PageLayout><LoginPage /></PageLayout>}></Route>

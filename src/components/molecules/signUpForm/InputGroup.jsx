@@ -40,7 +40,7 @@ const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, erro
             <input type={type} name={name} maxLength={maxLength}
                 inputMode={mode ?? (type == "number" ? "numeric" : "")}
                 pattern={(type == "number" ? /^[0-9۰-۹٠-٩]$/ : "")}
-                onFocus={() => (type !== 'number' ? handleFocus() : () => { })} value={val} readOnly={!isEditable} className="border-none placeholder:text-black/40 text-red focus-visible:outline-0 p-3 text-center w-full" placeholder={placeholder} ref={InputRef} onChange={handleChange} />
+                onFocus={() => (type !== 'number' ? handleFocus() : () => { })} value={val} readOnly={!isEditable} className="border-none placeholder:text-black/40 text-Red focus-visible:outline-0 p-3 text-center w-full" placeholder={placeholder} ref={InputRef} onChange={handleChange} />
         </InputLayout>
     )
 }
