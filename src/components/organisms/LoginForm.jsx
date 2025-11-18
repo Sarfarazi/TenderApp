@@ -14,7 +14,7 @@ const LoginForm = () => {
   const { control, handleSubmit } = useForm();
 
   const { refetch, resultCode, error, loading, data } = useFetch(
-    `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
+    `https://localhost:7078/api/OTP/OTP/OTPAsync`,
     {
       method: "POST",
       headers: {
@@ -40,12 +40,12 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (resultCode == 200) {
-    //   if (data.iSRegister) {
+      if (data.iSRegister) {
         localStorage.setItem("canAccessOtp", "true");
         nav("/otpPage");
-    //   } else {
-    //     nav("/signUp");
-    //   }
+      } else {
+        nav("/signUp");
+      }
     }
   }, [resultCode]);
 

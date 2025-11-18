@@ -14,7 +14,7 @@ import SignUpLoading from '../molecules/loading/SingUpLoading'
 const UserDetail = () => {
     const { phone, token } = useContext(AuthContext)
     const { refetch, data, error, loading } = useFetch(
-        `https://tenapi.palaz.com/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
+        `https://localhost:7078/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
         {
             method: "POST",
             headers: {

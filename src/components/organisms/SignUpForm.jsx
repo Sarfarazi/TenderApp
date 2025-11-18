@@ -35,8 +35,8 @@ const SignUpForm = ({
     resultCode,
     error: reqError,
     loading,
-  } = useFetch(
-    `https://tenapi.palaz.com/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
+  } = (isAccountPage) ? useFetch(
+    `https://localhost:7078/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
     {
       method: "POST",
       headers: {
@@ -45,7 +45,19 @@ const SignUpForm = ({
       },
       body: JSON.stringify(postBody),
     }
-  );
+  ) :
+      useFetch(
+        `https://localhost:7078/api/Main/DriverRegester/DriverRegesterAsync`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postBody),
+        }
+      )
+
 
   const submit = (data) => {
     setPostBody(data);
@@ -69,7 +81,7 @@ const SignUpForm = ({
   }, [resultCode]);
 
   useEffect(() => {
-    if (otpResultCode == 200) {
+    if (otpResultCode == 200 && resultCode == 200) {
       localStorage.setItem("canAccessOtp", "true");
       nav("/otpPage");
     }
@@ -118,7 +130,7 @@ const SignUpForm = ({
               type="tel"
               placeholder="09121234567"
               error={fieldState.error?.message}
-              isEditable={isEditable}
+              isEditable={isAccountPage && false}
             />
           )}
         />
@@ -201,6 +213,10 @@ const SignUpForm = ({
             />
           )}
         />
+
+        {!isAccountPage && <p className="text-md text-center" onClick={() => nav("/")}>
+          قبلا ثبت نام کرده اید؟ <span className="text-Red">ورود</span>
+        </p>}
 
         {(isEditable || !isAccountPage) && (
           <SubmitBtn

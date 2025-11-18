@@ -39,7 +39,7 @@ function App() {
 
   const fetchToken = useCallback(async () => {
     try {
-      const res = await fetch("https://tenapi.palaz.com/api/Account/Login", {
+      const res = await fetch("https://localhost:7078/api/Account/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ function App() {
     error: otpErr,
     data: otpData,
     resultCode: otpResultCode,
-  } = useFetch(`https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`, {
+  } = useFetch(`https://localhost:7078/api/OTP/OTP/OTPAsync`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

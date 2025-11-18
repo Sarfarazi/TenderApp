@@ -11,7 +11,7 @@ const AvailableShipments = () => {
     const { token } = useContext(AuthContext)
 
     const { refetch, data, error, loading } = useFetch(
-        `https://tenapi.palaz.com/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
+        `https://localhost:7078/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
         {
             method: "GET",
             headers: {
