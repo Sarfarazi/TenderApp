@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import AuthContext from "./context/AuthContext"
-import { lazy, Suspense, useCallback, useEffect, useState } from "react"
-import LoginProtector from "./components/templates/LoginProtector"
-import PageLayout from "./components/templates/PageLayout"
-import { useFetch } from "./hooks/useFetch"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AuthContext from "./context/AuthContext";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import LoginProtector from "./components/templates/LoginProtector";
+import PageLayout from "./components/templates/PageLayout";
+import { useFetch } from "./hooks/useFetch";
 const LoginPage = lazy(() => import("./components/pages/LoginPage"));
 const SignUpPage = lazy(() => import("./components/pages/SignUpPage"));
 const OTPPage = lazy(() => import("./components/pages/OTPPage"));
@@ -28,10 +28,13 @@ const getValidToken = () => {
 };
 
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(JSON.parse(localStorage.getItem("isLoggedIn")) ?? false)
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    JSON.parse(localStorage.getItem("isLoggedIn")) ?? false
+  );
   const [token, setToken] = useState(getValidToken() ?? "");
-  const [phone, setPhone] = useState(JSON.parse(sessionStorage.getItem("phone")) ?? null)
+  const [phone, setPhone] = useState(
+    JSON.parse(localStorage.getItem("phone")) ?? null
+  );
   const [isExpired, setIsExpired] = useState(false);
 
   const fetchToken = useCallback(async () => {
@@ -81,48 +84,54 @@ function App() {
     checkLogin();
   }, [fetchToken]);
 
-  const { refetch } = useFetch(
-    `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        phone: phone
-      }),
-    }
-  );
+  const {
+    refetch,
+    loading: otpLoading,
+    error: otpErr,
+    data: otpData,
+    resultCode: otpResultCode,
+  } = useFetch(`https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      phone: phone,
+    }),
+  });
 
-  const onResend = () => {
-    refetch()
-    setIsExpired(true)
-  }
+  const onResend = (phoneNubmer) => {
+    refetch({
+      body: JSON.stringify({
+        phone: phone || phoneNubmer,
+      }),
+    });
+    setIsExpired(true);
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
-      sessionStorage.setItem("canAccessOtp", "false");
+      localStorage.setItem("canAccessOtp", "false");
     }
-    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn))
-  }, [isLoggedIn])
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
 
   useEffect(() => {
-    sessionStorage.setItem("phone", JSON.stringify(phone))
-  }, [phone])
+    localStorage.setItem("phone", JSON.stringify(phone));
+  }, [phone]);
 
   return (
     <AuthContext.Provider
-      value={
-        {
-          isLoggedIn: isLoggedIn,
-          setIsLoggedIn: setIsLoggedIn,
-          token: token,
-          setToken: setToken,
-          phone: phone,
-          setPhone: setPhone
-        }
-      }>
+      value={{
+        isLoggedIn: isLoggedIn,
+        setIsLoggedIn: setIsLoggedIn,
+        token: token,
+        setToken: setToken,
+        phone: phone,
+        setPhone: setPhone,
+      }}
+    >
       <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden relative">
         <BrowserRouter>
           <Suspense
@@ -133,26 +142,51 @@ function App() {
             }
           >
             <Routes>
-              <Route path="/" element={<PageLayout><LoginPage /></PageLayout>}></Route>
-              <Route path="/signUp" element={<PageLayout><SignUpPage onResend={onResend} /></PageLayout>}></Route>
-              <Route path="/otpPage" element={<PageLayout><OTPPage isExpired={isExpired} onResend={onResend} /></PageLayout>}></Route>
+              <Route
+                path="/"
+                element={
+                  <PageLayout>
+                    <LoginPage />
+                  </PageLayout>
+                }
+              ></Route>
+              <Route
+                path="/signUp"
+                element={
+                  <PageLayout>
+                    <SignUpPage
+                      onResend={onResend}
+                      otpLoading={otpLoading}
+                      otpErr={otpErr}
+                      otpData={otpData}
+                      otpResultCode={otpResultCode}
+                    />
+                  </PageLayout>
+                }
+              ></Route>
+              <Route
+                path="/otpPage"
+                element={
+                  <PageLayout>
+                    <OTPPage isExpired={isExpired} onResend={onResend} />
+                  </PageLayout>
+                }
+              ></Route>
               <Route
                 path={"/dashboard"}
                 element={
-                  <PageLayout><LoginProtector
-                    redirectTo={"/"}
-                  >
-                    <Dashboard />
-                  </LoginProtector></PageLayout>
+                  <PageLayout>
+                    <LoginProtector redirectTo={"/"}>
+                      <Dashboard />
+                    </LoginProtector>
+                  </PageLayout>
                 }
               />
               <Route
                 path={"/Account"}
                 element={
                   <PageLayout>
-                    <LoginProtector
-                      redirectTo={"/"}
-                    >
+                    <LoginProtector redirectTo={"/"}>
                       <UserDetail />
                     </LoginProtector>
                   </PageLayout>
@@ -163,7 +197,7 @@ function App() {
         </BrowserRouter>
       </main>
     </AuthContext.Provider>
-  )
+  );
 }
 
-export default App
+export default App;

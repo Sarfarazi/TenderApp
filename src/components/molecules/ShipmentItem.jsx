@@ -20,7 +20,7 @@ import ShipmentDesc from "../atoms/ShipmentItem/ShipmentDesc";
 
 const ShipmentItem = ({ state, showToast, data: itemData }) => {
     const { phone, token } = useContext(AuthContext)
-    const [persianPrice, setPersianPrice] = useState(num2persian(itemData.OfferPrice ?? 20000000))
+    const [persianPrice, setPersianPrice] = useState(num2persian(itemData.OfferPrice || 20000000))
     const [offerPrice, setOfferPrice] = useState(0)
     const {
         control,

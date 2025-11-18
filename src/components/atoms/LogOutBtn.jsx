@@ -12,7 +12,7 @@ const LogOutBtn = () => {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("auth_token");
         localStorage.removeItem("auth_token_time");
-        sessionStorage.removeItem("phone");
+        localStorage.removeItem("phone");
         setIsLoggedIn(false)
         nav("/")
     }

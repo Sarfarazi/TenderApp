@@ -1,7 +1,6 @@
-import { forwardRef, useContext, useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import InputLayout from "../../templates/InputLayout"
 import num2persian from "num2persian"
-import AuthContext from "../../../context/AuthContext"
 
 
 const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, error, onChange, value, isEditable = true, setPersianPrice, mode }, ref) => {
