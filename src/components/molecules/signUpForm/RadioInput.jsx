@@ -11,7 +11,7 @@ const RadioInput = ({ label, onChange, error, value, isEditable = true }) => {
     const { token } = useContext(AuthContext)
 
     const { refetch, data, loading, error: reqErr } = useFetch(
-        `https://localhost:7078/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
+        `https://tenapi.palaz.com/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
         {
             method: "GET",
             headers: {

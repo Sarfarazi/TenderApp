@@ -36,7 +36,7 @@ const SignUpForm = ({
     error: reqError,
     loading,
   } = (isAccountPage) ? useFetch(
-    `https://localhost:7078/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
+    `https://tenapi.palaz.com/api/Main/CompletingDriverInfor/CompletingDriverInforAsync`,
     {
       method: "POST",
       headers: {
@@ -47,7 +47,7 @@ const SignUpForm = ({
     }
   ) :
       useFetch(
-        `https://localhost:7078/api/Main/DriverRegester/DriverRegesterAsync`,
+        `https://tenapi.palaz.com/api/Main/DriverRegester/DriverRegesterAsync`,
         {
           method: "POST",
           headers: {

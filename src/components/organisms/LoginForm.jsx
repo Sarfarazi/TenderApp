@@ -1,4 +1,4 @@
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BoxLayout from "../templates/BoxLayout";
 import InputGroup from "../molecules/signUpForm/InputGroup";
 import { Controller, useForm } from "react-hook-form";
@@ -14,7 +14,7 @@ const LoginForm = () => {
   const { control, handleSubmit } = useForm();
 
   const { refetch, resultCode, error, loading, data } = useFetch(
-    `https://localhost:7078/api/OTP/OTP/OTPAsync`,
+    `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
     {
       method: "POST",
       headers: {

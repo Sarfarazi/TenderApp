@@ -29,7 +29,7 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
     } = useForm({});
 
     const { refetch, resultCode, loading, error: reqError } = useFetch(
-        `https://localhost:7078/api/Main/SendTenderOffers/SendTenderOffersAsync`,
+        `https://tenapi.palaz.com/api/Main/SendTenderOffers/SendTenderOffersAsync`,
         {
             method: "POST",
             headers: {

@@ -20,7 +20,7 @@ const OTPForm = ({ setIsVerify, isExpired, onResend}) => {
   const { setIsLoggedIn, phone, setPhone, token } = useContext(AuthContext);
 
   const { error, refetch, resultCode, loading } = useFetch(
-    `https://localhost:7078/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
+    `https://tenapi.palaz.com/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
     {
       method: "POST",
       headers: {

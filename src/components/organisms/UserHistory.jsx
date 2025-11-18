@@ -17,7 +17,7 @@ const UserHistory = () => {
     const [filteredState, setFilteredState] = useState(0)
     const { phone, token } = useContext(AuthContext)
     const { refetch, data, error, loading, setData } = useFetch(
-        `https://localhost:7078/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
+        `https://tenapi.palaz.com/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
         {
             method: "POST",
             headers: {
