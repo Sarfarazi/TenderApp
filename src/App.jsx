@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import AuthContext from "./context/AuthContext";
 import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import LoginProtector from "./components/templates/LoginProtector";
@@ -133,7 +133,7 @@ function App() {
       }}
     >
       <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden relative">
-        <BrowserRouter>
+        <HashRouter>
           <Suspense
             fallback={
               <div className="w-full fixed z-50 h-full top-0 left-0 bg-Gray flex items-center justify-center">
@@ -194,7 +194,7 @@ function App() {
               />
             </Routes>
           </Suspense>
-        </BrowserRouter>
+        </HashRouter>
       </main>
     </AuthContext.Provider>
   );
