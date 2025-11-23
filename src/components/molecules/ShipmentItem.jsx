@@ -57,6 +57,9 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
     useEffect(() => {
         if (resultCode == 200) {
             showToast(true, null, "پیشنهاد شما با موفقیت ارسال شد؛ منتظر تأیید اپراتور باشید")
+            setTimeout(() => {
+                window.location.reload();
+            }, 100);
         }
 
         if (reqError) {

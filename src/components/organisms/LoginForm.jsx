@@ -3,7 +3,7 @@ import BoxLayout from "../templates/BoxLayout";
 import InputGroup from "../molecules/signUpForm/InputGroup";
 import { Controller, useForm } from "react-hook-form";
 import { useFetch } from "../../hooks/useFetch";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import SubmitBtn from "../atoms/SubmitBtn";
 import ValidationErrorToast from "../atoms/ValidationErrorToast";
@@ -12,6 +12,7 @@ const LoginForm = () => {
   const nav = useNavigate();
   const { phone, setPhone, token } = useContext(AuthContext);
   const { control, handleSubmit } = useForm();
+  const [signUpModal, setSignUpModal] = useState(false)
 
   const { refetch, resultCode, error, loading, data } = useFetch(
     `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
@@ -44,13 +45,18 @@ const LoginForm = () => {
         localStorage.setItem("canAccessOtp", "true");
         nav("/otpPage");
       } else {
-        nav("/signUp");
+        setSignUpModal(true)
       }
     }
   }, [resultCode]);
 
   return (
+
+
     <BoxLayout>
+      {signUpModal &&
+        <ValidationErrorToast error={"لطفا ابتدا ثبت نام کنید"} />
+      }
       <form className="w-full flex flex-col gap-5 items-center">
         <h1 className="text-2xl">ورود یا ثبت نام</h1>
         <Controller
@@ -89,6 +95,7 @@ const LoginForm = () => {
       </form>
       {error && <ValidationErrorToast error={error} />}
     </BoxLayout>
+
   );
 };
 
