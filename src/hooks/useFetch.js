@@ -37,5 +37,5 @@ export function useFetch(url, options = {}) {
     [url, JSON.stringify(options)]
   );
 
-  return { data, loading, error, resultCode, refetch , setData }; // ✅ برگردوندن resultCode
+  return { data, loading, error, resultCode, refetch , setData };
 }

@@ -46,8 +46,9 @@ function App() {
           accept: "text/plain",
         },
         body: JSON.stringify({
-          userName: "Supervisor",
-          password: "12345678",
+          userName: "TenderSupervisor",
+          // password: "Admin@10155",
+          password: "12345678"
         }),
       });
 
