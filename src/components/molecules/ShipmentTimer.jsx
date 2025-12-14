@@ -8,13 +8,15 @@ const ShipmentTimer = ({ startTime, duration, setIsExpired }) => {
     const remaining = useRemaining(startTime, duration)
 
     useEffect(() => {
-        setIsExpired(remaining.expired)
+        setIsExpired({ state: remaining.expired, time: remaining.diff })
     }, [remaining.expired])
+
+
 
     return (
         <div className="flex items-center justify-center w-full text-red-500 text-lg" dir="ltr">
 
-            {remaining.diff ?
+            {remaining.diff > 0 ?
                 <FlipClockCountdown
                     to={new Date().getTime() + (remaining.hrs * 60 * 60 + remaining.mins * 60 + remaining.secs) * 1000}
                     showLabels={false}

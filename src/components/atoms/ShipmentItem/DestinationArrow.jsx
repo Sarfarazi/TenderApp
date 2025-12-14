@@ -1,6 +1,5 @@
 import WayArrow from "../icons/WayArrow"
 
-
 const DestinationArrow = ({ state, from, to }) => {
     return (
         <div className="w-full border-b pb-5">

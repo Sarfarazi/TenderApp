@@ -38,7 +38,7 @@ const useRemaining = (startTime, duration) => {
             const diff = expire.getTime() - now;
 
             if (diff <= 0) {
-                setRemaining({ expired: true, hrs: 0, mins: 0, secs: 0, diff: 0 });
+                setRemaining({ expired: true, hrs: 0, mins: 0, secs: 0, diff: diff });
                 clearInterval(interval);
                 return;
             }

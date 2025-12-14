@@ -7,7 +7,7 @@ const ShipmentStateTitle = ({ state }) => {
         3: "پیشنهاد شما رد شد.",
     }
     return (
-        <p className={`text-xl text-${(state == 2) ? "Yellow" : (state == 1) ? "Green" : (state == 3) ? "Red" : ""}`}>{stateTitles[state]}</p>
+        <p className={`text-xl ${(state == 2) ? "text-Yellow" : (state == 1) ? "text-Green" : (state == 3) ? "text-Red" : ""}`}>{stateTitles[state]}</p>
     )
 }
 

@@ -3,6 +3,7 @@ import RadioItem from "../../atoms/Inputs/RadioItem"
 import ValidationError from "../../atoms/ValidationError"
 import { useFetch } from "../../../hooks/useFetch"
 import AuthContext from "../../../context/AuthContext"
+import BaseUrl from "../../../BaseUrl"
 
 
 
@@ -11,7 +12,7 @@ const RadioInput = ({ label, onChange, error, value, isEditable = true }) => {
     const { token } = useContext(AuthContext)
 
     const { refetch, data, loading, error: reqErr } = useFetch(
-        `https://tenapi.palaz.com/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
+        `${BaseUrl}/api/Main/GetTypeTenderCar/GetTypeTenderCarAsync`,
         {
             method: "GET",
             headers: {

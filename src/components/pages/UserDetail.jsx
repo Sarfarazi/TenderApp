@@ -7,6 +7,7 @@ import SubmitBtn from '../atoms/SubmitBtn'
 import { useFetch } from '../../hooks/useFetch'
 import AuthContext from '../../context/AuthContext'
 import SignUpLoading from '../molecules/loading/SingUpLoading'
+import BaseUrl from '../../BaseUrl'
 
 
 
@@ -14,7 +15,7 @@ import SignUpLoading from '../molecules/loading/SingUpLoading'
 const UserDetail = () => {
     const { phone, token } = useContext(AuthContext)
     const { refetch, data, error, loading } = useFetch(
-        `https://tenapi.palaz.com/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
+        `${BaseUrl}/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
         {
             method: "POST",
             headers: {

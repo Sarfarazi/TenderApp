@@ -4,6 +4,7 @@ import ShipmentItem from "../molecules/ShipmentItem";
 import AuthContext from "../../context/AuthContext";
 import { useFetch } from "../../hooks/useFetch";
 import ShipmentItemLoading from "../molecules/loading/ShipmentItemLoading";
+import BaseUrl from "../../BaseUrl";
 
 const AvailableShipments = () => {
   const [isToastVisible, setIsToastVisible] = useState({
@@ -14,7 +15,7 @@ const AvailableShipments = () => {
   const { token, phone } = useContext(AuthContext);
 
   const { refetch, data, error, loading } = useFetch(
-    `https://tenapi.palaz.com/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
+    `${BaseUrl}/api/Main/GetBarInfoTender/GetBarInfoTenderAsync`,
     {
       method: "POST",
       headers: {

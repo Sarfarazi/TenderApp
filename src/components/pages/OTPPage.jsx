@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import OTPForm from "../organisms/OTPForm";
 import { useEffect, useState } from "react";
 import VerifyModal from "../organisms/VerifyModal";
-import otpImg from "../../assets/images/otp.svg";
+import otpImg from "/images/otp.svg";
 
 const OTPPage = ({ isExpired, onResend }) => {
   const navigate = useNavigate();

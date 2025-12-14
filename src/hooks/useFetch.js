@@ -1,5 +1,4 @@
-import { useState, useCallback, useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import { useState, useCallback } from "react";
 
 export function useFetch(url, options = {}) {
   const [data, setData] = useState(null);

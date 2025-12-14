@@ -8,6 +8,7 @@ import OtpTimer from "./OtpTimer";
 import AuthContext from "../../context/AuthContext";
 import { useFetch } from "../../hooks/useFetch";
 import SubmitBtn from "../atoms/SubmitBtn";
+import BaseUrl from "../../BaseUrl";
 
 const OTPForm = ({ setIsVerify, isExpired, onResend}) => {
   const nav = useNavigate();
@@ -20,7 +21,7 @@ const OTPForm = ({ setIsVerify, isExpired, onResend}) => {
   const { setIsLoggedIn, phone, setPhone, token } = useContext(AuthContext);
 
   const { error, refetch, resultCode, loading } = useFetch(
-    `https://tenapi.palaz.com/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
+    `${BaseUrl}/api/OTP/ConfirmOTP/ConfirmOTPAsync`,
     {
       method: "POST",
       headers: {

@@ -1,5 +1,5 @@
 
-import logo from '../../../assets/images/logo.svg'
+import logo from '/images/logo.svg'
 
 const Logo = ({ onClick }) => {
     return (

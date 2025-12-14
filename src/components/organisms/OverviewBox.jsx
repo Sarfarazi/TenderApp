@@ -1,6 +1,6 @@
-import carpetSvg from '../../assets/icons/carpet.svg'
-import truck from '../../assets/icons/truck.svg'
-import dashbord from '../../assets/icons/dashbord.svg'
+import carpetSvg from '/icon/carpet.svg'
+import truck from '/icon/truck.svg'
+import dashbord from '/icon/dashbord.svg'
 
 const OverviewBox = () => {
     return (

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import BoxLayout from "../templates/BoxLayout"
 import ValidationErrorToast from "../atoms/ValidationErrorToast"
-import verify from '../../assets/images/verify.svg'
+import verify from '/images/verify.svg'
 import SubmitBtn from "../atoms/SubmitBtn"
 
 

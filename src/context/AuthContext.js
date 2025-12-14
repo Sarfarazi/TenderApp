@@ -7,7 +7,9 @@ const AuthContext = createContext({
     token: "",
     setToken: () => { },
     phone: "",
-    setPhone: () => { }
+    setPhone: () => { },
+    isCompany: "",
+    setIsCompany: () => { }
 }
 );
 

@@ -4,6 +4,7 @@ import HistoryFilter from "../molecules/HistoryFilter"
 import { useFetch } from "../../hooks/useFetch"
 import AuthContext from "../../context/AuthContext"
 import ShipmentItemLoading from "../molecules/loading/ShipmentItemLoading"
+import BaseUrl from "../../BaseUrl"
 
 
 
@@ -17,7 +18,7 @@ const UserHistory = () => {
     const [filteredState, setFilteredState] = useState(0)
     const { phone, token } = useContext(AuthContext)
     const { refetch, data, error, loading, setData } = useFetch(
-        `https://tenapi.palaz.com/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
+        `${BaseUrl}/api/Main/GetBarHistoryTender/GetBarHistoryTenderAsync`,
         {
             method: "POST",
             headers: {

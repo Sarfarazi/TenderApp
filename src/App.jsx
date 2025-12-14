@@ -4,6 +4,7 @@ import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import LoginProtector from "./components/templates/LoginProtector";
 import PageLayout from "./components/templates/PageLayout";
 import { useFetch } from "./hooks/useFetch";
+import BaseUrl from "./BaseUrl";
 const LoginPage = lazy(() => import("./components/pages/LoginPage"));
 const SignUpPage = lazy(() => import("./components/pages/SignUpPage"));
 const OTPPage = lazy(() => import("./components/pages/OTPPage"));
@@ -31,6 +32,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("isLoggedIn")) ?? false
   );
+  const [isCompany, setIsCompany] = useState(
+    JSON.parse(localStorage.getItem("isCompany")) ?? false
+  );
   const [token, setToken] = useState(getValidToken() ?? "");
   const [phone, setPhone] = useState(
     JSON.parse(localStorage.getItem("phone")) ?? null
@@ -39,7 +43,7 @@ function App() {
 
   const fetchToken = useCallback(async () => {
     try {
-      const res = await fetch("https://tenapi.palaz.com/api/Account/Login", {
+      const res = await fetch(`${BaseUrl}/api/Account/Login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +95,7 @@ function App() {
     error: otpErr,
     data: otpData,
     resultCode: otpResultCode,
-  } = useFetch(`https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`, {
+  } = useFetch(`${BaseUrl}/api/OTP/OTP/OTPAsync`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -122,6 +126,10 @@ function App() {
     localStorage.setItem("phone", JSON.stringify(phone));
   }, [phone]);
 
+  useEffect(() => {
+    localStorage.setItem("isCompany", JSON.stringify(isCompany));
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -131,6 +139,8 @@ function App() {
         setToken: setToken,
         phone: phone,
         setPhone: setPhone,
+        isCompany: isCompany,
+        setIsCompany: setIsCompany
       }}
     >
       <main className="mx-auto border-x p-5 border-gray-500 max-w-2xl body overflow-hidden relative">

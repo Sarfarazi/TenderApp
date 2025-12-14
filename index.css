@@ -33,7 +33,7 @@
 
 @font-face {
   font-family: B-Yekan;
-  src: url(./assets/font/Yekan.ttf);
+  src: url(/font/Yekan.ttf);
 }
 
 .loader {

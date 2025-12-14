@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import Logo from "../atoms/header/Logo"
 import AuthContext from "../../context/AuthContext"
-import userSvg from '../../assets/icons/user.svg'
+import userSvg from '/icon/user.svg'
 import { useNavigate } from "react-router-dom"
 
 

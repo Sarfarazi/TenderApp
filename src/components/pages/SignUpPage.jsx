@@ -2,7 +2,7 @@ import { useContext } from "react";
 import SignUpForm from "../organisms/SignUpForm";
 import AuthContext from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
-import signUpImg from "../../assets/images/signUp.svg";
+import signUpImg from "/images/signUp.svg";
 
 const SignUpPage = ({
   onResend,

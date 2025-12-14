@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import SubmitBtn from "../atoms/SubmitBtn";
 import ValidationErrorToast from "../atoms/ValidationErrorToast";
+import BaseUrl from "../../BaseUrl";
 
 const LoginForm = () => {
   const nav = useNavigate();
@@ -15,7 +16,7 @@ const LoginForm = () => {
   const [signUpModal, setSignUpModal] = useState(false)
 
   const { refetch, resultCode, error, loading, data } = useFetch(
-    `https://tenapi.palaz.com/api/OTP/OTP/OTPAsync`,
+    `${BaseUrl}/api/OTP/OTP/OTPAsync`,
     {
       method: "POST",
       headers: {
@@ -90,7 +91,7 @@ const LoginForm = () => {
           loading={loading}
         />
         <p className="text-sm" onClick={() => nav("/signUp")}>
-          قبلا ثبت نام نکرده اید؟ <span className="text-Red">ثبت نام</span>
+          قبلا ثبت نام نکرده اید؟ <span className="text-Red cursor-pointer">ثبت نام</span>
         </p>
       </form>
       {error && <ValidationErrorToast error={error} />}
