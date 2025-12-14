@@ -1,20 +1,17 @@
-import { Controller, useForm } from "react-hook-form"
-import BoxLayout from "../templates/BoxLayout"
-import InputGroup from "./signUpForm/InputGroup"
-import num2persian from "num2persian";
-import { useContext, useEffect, useState } from "react";
-import { useFetch } from "../../hooks/useFetch";
-import AuthContext from "../../context/AuthContext";
-import SubmitBtn from "../atoms/SubmitBtn";
+import BoxLayout from "../templates/BoxLayout";
 import ShipmentDate from "../atoms/ShipmentItem/ShipmentDate";
 import DestinationArrow from "../atoms/ShipmentItem/DestinationArrow";
-import CustomPriceTitle from "../atoms/ShipmentItem/CustomPriceTitle";
-import ShipmentStateTitle from "../atoms/ShipmentItem/ShipmentStateTitle";
 import ShipmentDesc from "../atoms/ShipmentItem/ShipmentDesc";
 import ShipmentTimer from "./ShipmentTimer";
+<<<<<<< HEAD
 import BaseUrl from "../../BaseUrl";
 import RadioInput from "./signUpForm/RadioInput";
 import PelakInput from "./signUpForm/PelakInput";
+=======
+import ShipmentDetail from "../atoms/ShipmentItem/ShipmentDetail";
+import ShipmentPriceSection from "./ShipmentPriceSection";
+import { useState } from "react";
+>>>>>>> d0dca31e23e78dacf17b3e8f561441bbcf966007
 
 // states:
 // 0 => available
@@ -23,6 +20,7 @@ import PelakInput from "./signUpForm/PelakInput";
 // 3 => rejected
 
 const ShipmentItem = ({ state, showToast, data: itemData }) => {
+<<<<<<< HEAD
     const { phone, token, isCompany } = useContext(AuthContext)
     const [persianPrice, setPersianPrice] = useState(num2persian(itemData.OfferPrice || 20000000))
     const [isExpired, setIsExpired] = useState({ state: false, time: 0 })
@@ -64,20 +62,62 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
         }
 
     }, [postBody])
+=======
+  const [isExpired, setIsExpired] = useState(false);
 
-    useEffect(() => {
-        if (resultCode == 200) {
-            showToast(true, null, "پیشنهاد شما با موفقیت ارسال شد؛ منتظر تأیید اپراتور باشید")
-            setTimeout(() => {
-                window.location.reload();
-            }, 100);
-        }
+  return (
+    <>
+      <BoxLayout state={state}>
+        <div className={"flex flex-col gap-5 items-center w-full "}>
+          {state == 0 && itemData?.SaveDate && itemData?.TenderDuration && (
+            <ShipmentTimer
+              setIsExpired={setIsExpired}
+              startTime={itemData?.SaveDate}
+              duration={itemData?.TenderDuration}
+            />
+          )}
 
-        if (reqError) {
-            showToast(true, reqError, null)
-        }
-    }, [resultCode, reqError])
+          <ShipmentDate content={itemData?.StartDate} />
+          <DestinationArrow
+            state={state}
+            from={itemData?.Beginning}
+            to={itemData?.Destination}
+          />
 
+          <div className="self-start flex flex-col gap-2 w-full border-b pb-5">
+            {itemData?.WeightApprox && (
+              <ShipmentDetail
+                title={"وزن بار"}
+                value={itemData?.WeightApprox}
+                isWeight={true}
+              />
+            )}
+            {itemData?.LoadTypeName && (
+              <ShipmentDetail
+                title={"نوع بار"}
+                value={itemData?.LoadTypeName}
+              />
+            )}
+          </div>
+>>>>>>> d0dca31e23e78dacf17b3e8f561441bbcf966007
+
+          {itemData?.Description && (
+            <ShipmentDesc state={state} desc={itemData?.Description} />
+          )}
+
+          <ShipmentPriceSection
+            isExpired={isExpired}
+            state={state}
+            itemData={itemData}
+            showToast={showToast}
+          />
+        </div>
+      </BoxLayout>
+    </>
+  );
+};
+
+<<<<<<< HEAD
     return (
         <>
             {(isExpired.time > -(86400000 * 2)) &&
@@ -247,3 +287,6 @@ const ShipmentItem = ({ state, showToast, data: itemData }) => {
 }
 
 export default ShipmentItem
+=======
+export default ShipmentItem;
+>>>>>>> d0dca31e23e78dacf17b3e8f561441bbcf966007
