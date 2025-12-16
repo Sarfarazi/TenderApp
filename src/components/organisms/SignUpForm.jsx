@@ -49,7 +49,7 @@ const SignUpForm = ({
   )
 
   const submit = (data) => {
-    console.log({...postBody, typeDriver: (isCompany) ? 2 : 1 })
+    console.log({...data, typeDriver: (isCompany) ? 2 : 1 })
     setPostBody(data);
   };
 
@@ -202,7 +202,8 @@ const SignUpForm = ({
                 <InputGroup
                   {...field}
                   label="ظرفیت حمل بار (تن)"
-                  mode="numeric"
+                  inputMode="numeric"
+                  isValInt={true}
                   type="text"
                   placeholder="2"
                   error={fieldState.error?.message}

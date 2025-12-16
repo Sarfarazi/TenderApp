@@ -6,67 +6,32 @@ import "@leenguyen/react-flip-clock-countdown/dist/index.css";
 const ShipmentTimer = ({ startTime, duration, setIsExpired }) => {
   const remaining = useRemaining(startTime, duration);
 
-<<<<<<< HEAD
-    useEffect(() => {
-        setIsExpired({ state: remaining.expired, time: remaining.diff })
-    }, [remaining.expired])
-
-
-
-    return (
-        <div className="flex items-center justify-center w-full text-red-500 text-lg" dir="ltr">
-
-            {remaining.diff > 0 ?
-                <FlipClockCountdown
-                    to={new Date().getTime() + (remaining.hrs * 60 * 60 + remaining.mins * 60 + remaining.secs) * 1000}
-                    showLabels={false}
-                    daysInHours={true}
-                    renderMap={[false, true, true, true]}
-                    digitBlockStyle={{ width: 30, height: 40, fontSize: 30 }}
-                    dividerStyle={{ color: 'white', height: 0 }}
-                    separatorStyle={{ color: 'black', size: '6px' }}
-                    duration={0.5}
-                />
-                :
-                <p className="text-xl">مهلت ثبت درخواست پایان یافت</p>
-            }
-        </div>
-
-    )
-}
-
-export default ShipmentTimer
-=======
   useEffect(() => {
-    setIsExpired(remaining.expired);
-  }, [remaining.expired]);
+    setIsExpired({ state: remaining.expired, time: remaining.diff })
+  }, [remaining.expired])
+
+
 
   return (
-    <div
-      className="flex items-center justify-center w-full text-red-500 text-lg"
-      dir="ltr"
-    >
-      {remaining.diff ? (
+    <div className="flex items-center justify-center w-full text-red-500 text-lg" dir="ltr">
+
+      {remaining.diff > 0 ?
         <FlipClockCountdown
-          to={
-            new Date().getTime() +
-            (remaining.hrs * 60 * 60 + remaining.mins * 60 + remaining.secs) *
-              1000
-          }
+          to={new Date().getTime() + (remaining.hrs * 60 * 60 + remaining.mins * 60 + remaining.secs) * 1000}
           showLabels={false}
           daysInHours={true}
           renderMap={[false, true, true, true]}
           digitBlockStyle={{ width: 30, height: 40, fontSize: 30 }}
-          dividerStyle={{ color: "white", height: 0 }}
-          separatorStyle={{ color: "black", size: "6px" }}
+          dividerStyle={{ color: 'white', height: 0 }}
+          separatorStyle={{ color: 'black', size: '6px' }}
           duration={0.5}
         />
-      ) : (
+        :
         <p className="text-xl">مهلت ثبت درخواست پایان یافت</p>
-      )}
+      }
     </div>
-  );
-};
 
-export default ShipmentTimer;
->>>>>>> d0dca31e23e78dacf17b3e8f561441bbcf966007
+  )
+}
+
+export default ShipmentTimer

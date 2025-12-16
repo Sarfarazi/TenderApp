@@ -128,7 +128,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("isCompany", JSON.stringify(isCompany));
-  }, []);
+  }, [isCompany]);
 
   return (
     <AuthContext.Provider

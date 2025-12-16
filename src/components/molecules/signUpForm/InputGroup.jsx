@@ -3,8 +3,8 @@ import InputLayout from "../../templates/InputLayout"
 import num2persian from "num2persian"
 
 
-const InputGroup = forwardRef(({ label, name, type, placeholder, maxLength, error, onChange, value, isEditable = true, setPersianPrice, mode }, ref) => {
-    const [val, selVal] = useState(value ?? "")
+const InputGroup = forwardRef(({ label, name, type, isValInt, placeholder, maxLength, error, onChange, value, isEditable = true, setPersianPrice, mode }, ref) => {
+    const [val, selVal] = useState((isValInt) ? (+value || 0) : (value ?? "") )
     const InputRef = useRef()
     const handleFocus = () => {
         const length = event.target.value.length;

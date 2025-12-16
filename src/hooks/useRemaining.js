@@ -39,20 +39,14 @@ const useRemaining = (startTime, duration) => {
 
     const expire = new Date(start.getTime() + duration * 60 * 60 * 1000);
 
-<<<<<<< HEAD
-            if (diff <= 0) {
-                setRemaining({ expired: true, hrs: 0, mins: 0, secs: 0, diff: diff });
-                clearInterval(interval);
-                return;
-            }
-=======
+
     const update = () => {
       const now = new Date();
       const diff = expire.getTime() - now;
->>>>>>> d0dca31e23e78dacf17b3e8f561441bbcf966007
+
 
       if (diff <= 0) {
-        setRemaining({ expired: true, hrs: 0, mins: 0, secs: 0, diff: 0 });
+        setRemaining({ expired: true, hrs: 0, mins: 0, secs: 0, diff: diff });
         return true;
       }
 

@@ -13,7 +13,7 @@ import BaseUrl from '../../BaseUrl'
 
 
 const UserDetail = () => {
-    const { phone, token } = useContext(AuthContext)
+    const { phone, token , setIsCompany } = useContext(AuthContext)
     const { refetch, data, error, loading } = useFetch(
         `${BaseUrl}/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
         {
@@ -32,6 +32,17 @@ const UserDetail = () => {
     useEffect(() => {
         refetch()
     }, [])
+
+
+    useEffect(() => {
+        const typeDriver = data?.typeDriver
+        if (typeDriver == 1) {
+            setIsCompany(false)
+        }
+        if (typeDriver == 2) {
+            setIsCompany(true)
+        }
+    }, [data])
 
     const [isEditable, setIsEditable] = useState(false)
     const nav = useNavigate()

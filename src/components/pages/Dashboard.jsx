@@ -9,10 +9,10 @@ import AuthContext from "../../context/AuthContext"
 
 const Dashboard = () => {
     const [currentTab, setCurrentTab] = useState("todo")
-    const { phone, token } = useContext(AuthContext);
+    const { phone, token , setIsCompany } = useContext(AuthContext);
 
 
-    const { refetch, data, error, loading } = useFetch(
+    const { refetch, data } = useFetch(
         `${BaseUrl}/api/Main/GetInfoDriverTenderByMobile/GetInfoDriverTenderByMobileAsync`,
         {
             method: "POST",
@@ -34,10 +34,10 @@ const Dashboard = () => {
     useEffect(() => {
         const typeDriver = data?.typeDriver
         if (typeDriver == 1) {
-            localStorage.setItem("isCompany", false);
+            setIsCompany(false)
         }
         if (typeDriver == 2) {
-            localStorage.setItem("isCompany", true);
+            setIsCompany(true)
         }
     }, [data])
 
